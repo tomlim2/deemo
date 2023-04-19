@@ -64,7 +64,7 @@ source_folder = "/Game/MetaHumans/Set_" + listnumber + "/Face"
 
 skintype_name = skintype_values[listnumber]
 desired_prefix = "T_" + "skinType" + skintype_name + "_"
-destination_folder = "/Game/YourDestinationFolderPath/skinType_" + skintype_name
+destination_folder = "/Game/SkinTypes/skinType_" + skintype_name
 
 asset_registry = unreal.AssetRegistryHelpers.get_asset_registry()
 assets = asset_registry.get_assets_by_path(source_folder, recursive=False)
@@ -72,18 +72,19 @@ assets = asset_registry.get_assets_by_path(source_folder, recursive=False)
 if not unreal.EditorAssetLibrary.does_directory_exist(destination_folder):
     unreal.EditorAssetLibrary.make_directory(destination_folder)
 
+
 for asset in assets:
-    old_name = str(asset.asset_name)
-    # Remove the "T_" prefix from the old name
-    old_name_without_prefix = old_name.replace("T_", "", 1)
-    # Add the desired prefix to the new name
-    new_name = desired_prefix + old_name_without_prefix
+    print(f"Asset: {asset.asset_name}, Class: {asset.asset_class_path}")
+    if asset.asset_class_path.asset_name == "Texture2D":
+        old_name = str(asset.asset_name)
+        old_name_without_prefix = old_name.replace("T_", "", 1)
+        new_name = desired_prefix + old_name_without_prefix
 
-    source_path = str(asset.package_name)
+        source_path = str(asset.package_name)
 
-    destination_path = source_path.replace(old_name, new_name)
+        destination_path = source_path.replace(old_name, new_name)
 
-    subdirectory_path = str(asset.package_path).replace(source_folder, "")
-    destination_path = destination_folder + subdirectory_path + "/" + new_name
+        subdirectory_path = str(asset.package_path).replace(source_folder, "")
+        destination_path = destination_folder + subdirectory_path + "/" + new_name
 
-    unreal.EditorAssetLibrary.duplicate_asset(source_path, destination_path)
+        unreal.EditorAssetLibrary.duplicate_asset(source_path, destination_path)
