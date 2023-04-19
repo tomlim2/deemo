@@ -1,8 +1,8 @@
 import unreal
 
-folder_path = "/Game/Path/To/Your/Folder/"
-old_prefix = "OldPrefix"
-new_prefix = "NewPrefix"
+folder_path = "/Game/Content/metahumanAssets/Set_001/Face/"
+old_prefix = "Face"
+new_prefix = "hi"
 
 asset_registry = unreal.AssetRegistryHelpers.get_asset_registry()
 asset_data_list = asset_registry.get_assets_by_path(folder_path, recursive=True)
